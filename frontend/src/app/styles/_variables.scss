@@ -1,0 +1,65 @@
+:root {
+  // base
+  --content-width: 1792px;
+  --container-offset: 64px;
+  --container-offset-mobile: 16px;
+  --title-offset: 22px;
+  --container-width: calc(var(--content-width) + (var(--container-offset) * 2));
+  --grid-offset: 32px;
+  --grid-offset-mobile: 8px;
+  --whiteLightness: 100%;
+
+  // Color Background
+  --CodGrey: #2b3239;
+
+  // Color Text
+  --Swamp: #072325;
+  --SuvaGrey: #8c8c8c;
+  --WhiteSmoke: #f8f8f8;
+  --LightSeaGreen: #1bb8aa;
+  --Cinnabar: #e0423b;
+
+  // Color Button
+  --TallPoppy: #7f3531;
+  --BlueStone: #1b7169;
+
+  // Color Elements Decorations
+  --BlackPearl: #1a1e22;
+  --GreyChateau: #939ca5;
+  --Sunshade: #fe9049;
+  --Fern: #68a963;
+
+  --White: hsl(0, 0%, var(--whiteLightness));
+
+  --colorBackgroundWhite: var(--White);
+  --colorBackgroundBlack: var(--CodGrey);
+
+  // Color Text
+  --colorTextBlack: var(--Swamp);
+  --colorTextGray: var(--SuvaGrey);
+  --colorTextWhite: var(--WhiteSmoke);
+  --colorTextAzure: var(--LightSeaGreen);
+  --colorTextRed: var(--Cinnabar);
+
+  // Color Button 1
+  --colorButtonPrimaryNormalFirst: var(--Cinnabar);
+  --colorButtonPrimaryHoverFirst: var(--TallPoppy);
+  --colorButtonPrimaryActiveFirst: var(--LightSeaGreen);
+
+  // Color Button 2
+  --colorButtonPrimaryNormalSecond: var(--LightSeaGreen);
+  --colorButtonPrimaryHoverSecond: var(--BlueStone);
+  --colorButtonPrimaryActiveSecond: var(--Cinnabar);
+
+  // Color Button Menu
+  --colorButtonMobileMenuNormal: var(--BlackPearl);
+
+  // Color Elements Decorations
+  --colorElementOnSurfaceWhite: var(--WhiteSmoke);
+  --colorElementOnSurfaceBlack: var(--BlackPearl);
+  --colorElementOnSurfaceNeutral: var(--GreyChateau);
+  --colorElementOnSurfaceRed: var(--Cinnabar);
+  --colorElementOnSurfaceAzure: var(--LightSeaGreen);
+  --colorElementOnSurfaceOrange: var(--Sunshade);
+  --colorElementOnSurfaceGreen: var(--Fern);
+}
