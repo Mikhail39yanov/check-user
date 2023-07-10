@@ -71,3 +71,39 @@ button {
     padding: 0 var(--container-offset-mobile);
   }
 }
+
+.flex {
+  display: flex;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--grid-offset);
+
+  @include mobile {
+    grid-template-columns: repeat(6, 1fr);
+    column-gap: var(--grid-offset-mobile);
+  }
+}
+
+.container__plug {
+  justify-items: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.plug {
+  grid-column: span 12;
+
+  @include mobile {
+    grid-column: span 6;
+  }
+}
+
+.container__form {
+  position: relative;
+  justify-items: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
