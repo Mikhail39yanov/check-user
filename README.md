@@ -75,7 +75,7 @@ email (обязательное) и number (опциональное)
 
 ### First install the dependencies:
 
-    $ npm run install
+    $ npm install
 
 ### Запустите сервер в режиме разработки (в режиме разработки работает nodemon) или в режиме производственной сборки:s
 
@@ -92,7 +92,7 @@ email (обязательное) и number (опциональное)
 
 ### First install the dependencies:
 
-    $ npm run install
+    $ npm install
 
 ### Запустите клиентскую часть в режиме разработки или в режиме производственной сборки:
 
