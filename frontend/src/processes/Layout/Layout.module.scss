@@ -1,3 +1,5 @@
+@import '../../app/styles/mixins/breakpoint.scss';
+
 .layout {
 }
 
@@ -7,12 +9,24 @@
   grid-auto-flow: column;
   align-items: center;
   column-gap: 30px;
+
+  @include mobile {
+    column-gap: 10px;
+  }
 }
 
 .logoReact {
   width: 150px;
+
+  @include mobile {
+    width: 70px;
+  }
 }
 
 .logoNode {
   width: 150px;
+
+  @include mobile {
+    width: 70px;
+  }
 }

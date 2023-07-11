@@ -1,12 +1,17 @@
 import 'dotenv/config.js'
-import express from 'express'
+import express, { NextFunction, Request, Response } from 'express'
+import { HttpException } from './types/HttpException'
+import { routerClients } from './routers'
 
 export const port = process.env.PORT || 3001
 
 export const app = express()
+app.use(express.json())
 
-app.get('/api', (req, res) => {
-  res.json({ message: 'Hello from server!' })
+app.use('/api/clients', routerClients)
+
+app.use((err: HttpException, req: Request, res: Response, next: NextFunction) => {
+  res.status(500).send(err.message)
 })
 
 app.listen(port, () => {

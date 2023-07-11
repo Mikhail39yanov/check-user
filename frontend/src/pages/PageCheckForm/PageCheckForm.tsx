@@ -1,5 +1,5 @@
 import styles from './PageCheckForm.module.scss'
-import { ChangeEvent, FC, FormEvent, PropsWithChildren, useEffect, useState } from 'react'
+import { ChangeEvent, FC, FormEvent, PropsWithChildren } from 'react'
 import MaskedInput from 'react-text-mask'
 
 import Send from '../../shared/ui/icons/Send'
@@ -7,8 +7,10 @@ import { useUnit } from 'effector-react'
 import {
   $fastForm,
   $fastFormError,
+  $fastFormErrorResponse,
   $formSent,
   $isPendingForm,
+  $responseData,
   fetchPostFormFx,
   updateFastForm,
   updateValidateForm,
@@ -20,25 +22,20 @@ import removeHyphens from './utils/removeHyphens'
 export interface PageCheckFormProps {}
 
 const PageCheckForm: FC<PropsWithChildren<PageCheckFormProps>> = () => {
-  // yanovmikhailco@ya.ru
-  // yanovmikhailco@gmail.com
-  const [data, setData] = useState(null)
+  // jim@gmail.com
+  // 221122
   const { email, phone } = useUnit($fastForm)
+  const data = useUnit($responseData)
+  const { isPending } = useUnit($isPendingForm)
+  const { isFormSent } = useUnit($formSent)
+
   const { valueEmailError, valuePhoneError } = useUnit($fastFormError)
+  const { valueError } = useUnit($fastFormErrorResponse)
   const updateFastFormFn = useUnit(updateFastForm)
   const updateValueNameErrorFn = useUnit(updateValueEmailError)
   const updateValuePhoneErrorFn = useUnit(updateValuePhoneError)
   const updateValidateFormFn = useUnit(updateValidateForm)
   const fetchPostForm = useUnit(fetchPostFormFx)
-
-  const { isFormSent } = useUnit($formSent)
-  const { isPending } = useUnit($isPendingForm)
-
-  useEffect(() => {
-    fetch('/api')
-      .then((res) => res.json())
-      .then((data) => setData(data.message))
-  }, [])
 
   const onHandleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -67,8 +64,7 @@ const PageCheckForm: FC<PropsWithChildren<PageCheckFormProps>> = () => {
 
   const validateValueEmail = () => {
     if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,20}$/.test(email)) {
-      // return 'Неверный формат email'
-      return { value: `Неверный формат email`, key: 'valueEmailError' }
+      return { value: `Invalid email format`, key: 'valueEmailError' }
     }
 
     return { value: '', key: 'valueEmailError' }
@@ -76,7 +72,7 @@ const PageCheckForm: FC<PropsWithChildren<PageCheckFormProps>> = () => {
 
   const validateValuePhone = () => {
     if (phone.replace(/\D/g, '').length !== 6) {
-      return { value: `Неверный формат номера`, key: 'valuePhoneError' }
+      return { value: `Invalid number format`, key: 'valuePhoneError' }
     }
 
     return { value: '', key: 'valuePhoneError' }
@@ -94,14 +90,31 @@ const PageCheckForm: FC<PropsWithChildren<PageCheckFormProps>> = () => {
         <section>
           <div className={'container grid container__plug'}>
             <div className={'plug'}>
-              <p style={{ color: 'white' }}>{!data ? 'Loading...' : data}</p>
-              {isPending && !isFormSent && <p style={{ color: 'white' }}>Loading...</p>}
+              <h1 style={{ color: 'white' }}>Find a user</h1>
+            </div>
+          </div>
+        </section>
+        <section>
+          <div className={'container grid container__plug'}>
+            <div className={'plug'}>
+              {!isFormSent && !isPending && !valueEmailError && !valuePhoneError && data.clientNotFound && (
+                <p style={{ color: 'red' }}>{data.clientNotFound}</p>
+              )}
+              {!isFormSent &&
+                !isPending &&
+                !valueEmailError &&
+                !valuePhoneError &&
+                data.email !== undefined &&
+                data.email !== '' && (
+                  <p style={{ color: 'greenyellow' }}>{`Client ${data.email} | ${data.number} found`}</p>
+                )}
+              {isPending && !isFormSent && <p style={{ color: 'aquamarine' }}>Loading...</p>}
             </div>
           </div>
         </section>
         <section>
           <div className={'container grid container__form'}>
-            <form className={styles.form} noValidate autoComplete="off" onSubmit={onHandleSubmit}>
+            <form className={styles.form} noValidate autoComplete="on" onSubmit={onHandleSubmit}>
               <div className={styles.inputWrapper}>
                 <label htmlFor="email"></label>
                 <input
@@ -124,7 +137,6 @@ const PageCheckForm: FC<PropsWithChildren<PageCheckFormProps>> = () => {
                   type="tel"
                   name="phone"
                   placeholder="phone"
-                  // aria-invalid={valuePhoneError ? 'true' : undefined}
                   required
                   value={phone}
                   onChange={handleChangePhone}
@@ -140,8 +152,9 @@ const PageCheckForm: FC<PropsWithChildren<PageCheckFormProps>> = () => {
               </div>
             </form>
             <div className={styles.errorFieldsWrapper}>
-              {valueEmailError && <p style={{ color: 'red' }}>{valueEmailError}</p>}
-              {valuePhoneError && <p style={{ color: 'red' }}>{valuePhoneError}</p>}
+              {valueEmailError && <p style={{ color: 'red', fontSize: '12px' }}>{valueEmailError}</p>}
+              {valuePhoneError && <p style={{ color: 'red', fontSize: '12px' }}>{valuePhoneError}</p>}
+              {valueError && <p style={{ color: 'red', fontSize: '12px' }}>{valueError}</p>}
             </div>
           </div>
         </section>

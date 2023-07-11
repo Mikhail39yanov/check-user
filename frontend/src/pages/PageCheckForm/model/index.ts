@@ -1,5 +1,5 @@
 import { createEffect, createEvent, createStore } from 'effector'
-import { TDataForm, TDataFormError, TUpdateDataForm } from './type'
+import { TDataForm, TDataFormError, TResponseData, TUpdateDataForm } from './type'
 
 export const updateFastForm = createEvent<TUpdateDataForm>()
 export const updateValueEmailError = createEvent<TUpdateDataForm>()
@@ -7,15 +7,23 @@ export const updateValuePhoneError = createEvent<TUpdateDataForm>()
 export const updateValidateForm = createEvent<boolean>()
 export const resetFastForm = createEvent()
 
-export const fetchPostFormFx = createEffect<TDataForm, unknown>()
+export const fetchPostFormFx = createEffect<TDataForm, TResponseData>()
 
 export const $fastForm = createStore<TDataForm>({
   email: '',
   phone: '',
 })
+export const $responseData = createStore<TResponseData>({
+  email: '',
+  number: '',
+  clientNotFound: '',
+})
 export const $fastFormError = createStore<TDataFormError>({
   valueEmailError: '',
   valuePhoneError: '',
+})
+export const $fastFormErrorResponse = createStore<{ valueError: string }>({
+  valueError: '',
 })
 export const $fastFormValidate = createStore<{ isValidateForm: boolean }>({
   isValidateForm: true,
@@ -27,6 +35,10 @@ export const $isPendingForm = createStore<{ isPending: boolean }>({
   isPending: false,
 })
 
+// $responseData.watch((state) => {
+//   console.log(state)
+// })
+
 // $fastForm.watch((state) => {
 //   console.log(state)
 // })
@@ -36,6 +48,10 @@ export const $isPendingForm = createStore<{ isPending: boolean }>({
 // })
 
 // $fastFormValidate.watch((state) => {
+//   console.log(state)
+// })
+
+// $fastFormErrorResponse.watch((state) => {
 //   console.log(state)
 // })
 

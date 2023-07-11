@@ -5,7 +5,7 @@
   "private": true,
   "author": "Yanov Mikhail <yanovmikhailco@ya.ru>",
   "license": "ISC",
-  "proxy": "http://localhost:3000",
+  "proxy": "http://localhost:3001",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -31,6 +31,7 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@effector/redux-devtools-adapter": "^0.1.5",
     "@types/react-text-mask": "^5.4.11",
     "generate-react-cli": "^8.3.0",
     "sass": "^1.63.6"

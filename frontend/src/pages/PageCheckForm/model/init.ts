@@ -1,9 +1,11 @@
 import {
   $fastForm,
   $fastFormError,
+  $fastFormErrorResponse,
   $fastFormValidate,
   $formSent,
   $isPendingForm,
+  $responseData,
   fetchPostFormFx,
   resetFastForm,
   updateFastForm,
@@ -14,20 +16,18 @@ import {
 import { TDataForm } from './type'
 
 fetchPostFormFx.use(async (data: TDataForm) => {
-  const response = await fetch('/api', {
+  const response = await fetch('/api/clients', {
     method: 'POST',
     body: JSON.stringify({
-      name: data.email,
-      phone: data.phone,
+      email: data.email,
+      number: data.phone,
     }),
     headers: {
       Accept: 'application/json, text/plain, */*',
       'Content-Type': 'application/json',
     },
-  })
-
-  console.log(response)
-
+  }).then((data) => data.json())
+  // console.log(response)
   return response
 })
 
@@ -35,16 +35,15 @@ $isPendingForm.on(fetchPostFormFx.pending, (_, payload) => {
   return { isPending: payload }
 })
 
-$formSent.on(fetchPostFormFx.done, (state, payload) => {
+$formSent.reset(fetchPostFormFx.doneData).on(fetchPostFormFx.done, (state, payload) => {
   return {
     ...state,
     isFormSent: !state.isFormSent,
   }
 })
 
-fetchPostFormFx.fail.watch(({ params, error }) => {
-  console.error(params)
-  console.error(error)
+$fastFormErrorResponse.reset(fetchPostFormFx.doneData).on(fetchPostFormFx.fail, (_, payload) => {
+  return { valueError: 'A repeat request cannot be sent!' }
 })
 
 $fastForm.reset(resetFastForm).on(updateFastForm, (state, { key, value }) => {
@@ -52,6 +51,10 @@ $fastForm.reset(resetFastForm).on(updateFastForm, (state, { key, value }) => {
     ...state,
     [key]: value,
   }
+})
+
+$responseData.reset(resetFastForm).on(fetchPostFormFx.doneData, (state, payload) => {
+  return { ...state, email: payload.email, number: payload.number, clientNotFound: payload.clientNotFound }
 })
 
 $fastFormError

@@ -5,7 +5,7 @@
   "private": true,
   "author": "Yanov Mikhail <yanovmikhailco@ya.ru>",
   "license": "ISC",
-  "main": "index.ts",
+  "main": "index.js",
   "scripts": {
     "start": "cross-env npm run build && node build/index",
     "build": "rimraf ./build && npx tsc",

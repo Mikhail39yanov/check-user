@@ -12,3 +12,9 @@ export type TUpdateDataForm = {
   value: string
   key: string
 }
+
+export type TResponseData = {
+  email: string
+  number: string
+  clientNotFound?: string
+}
