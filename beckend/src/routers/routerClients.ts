@@ -11,7 +11,7 @@ const routerClients = express.Router()
 const repeatRequestMiddleware = (req: Request, res: Response, next: NextFunction) => {
   if (previousRequest >= 1) {
     res.send('A repeat request cannot be sent!')
-    previousRequest = 0
+    return
   } else {
     previousRequest++
     next()

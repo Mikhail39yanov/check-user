@@ -1,0 +1,80 @@
+@import '../../../../app/styles/mixins/breakpoint.scss';
+.pageCheckForm {
+}
+
+.form {
+  grid-column: span 12;
+  width: 100%;
+  max-width: 880px;
+
+  display: grid;
+  grid-auto-flow: column;
+  grid-column-gap: var(--grid-offset);
+  margin-bottom: 36px;
+
+  @include mobile {
+    grid-column: span 6;
+
+    grid-auto-flow: row;
+    grid-row-gap: 16px;
+    justify-content: center;
+
+    justify-items: center;
+  }
+}
+
+.inputWrapper {
+  width: 100%;
+  height: 48px;
+}
+
+.input {
+  width: 100%;
+  height: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-family: inherit;
+  font-weight: 400;
+  color: var(--colorTextBlack);
+  border: 2px solid transparent;
+  transition: outline 0.3s ease-in-out;
+}
+
+.input[aria-invalid] {
+  border-color: var(--colorElementOnSurfaceRed);
+}
+
+.submitWrapper {
+  width: 100%;
+}
+
+.submit {
+  position: relative;
+  display: inline-grid;
+  grid-auto-flow: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  width: 100%;
+  padding: 8px 16px;
+  cursor: pointer;
+  color: var(--WhiteSmoke);
+  background-color: var(--colorButtonPrimaryNormalFirst);
+  transition: background-color 0.3s ease-in-out 0s, outline 0.3s ease-in-out 0s;
+
+  &:hover {
+    background-color: var(--TallPoppy);
+  }
+}
+
+.errorFieldsWrapper {
+  position: absolute;
+  bottom: -20px;
+  width: 100%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 5px;
+  transform: translate(-50%, 0);
+}

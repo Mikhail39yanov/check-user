@@ -1,2 +1,2 @@
 // инициализация приложения
-import '../pages/PageCheckForm/model/init'
+import '../features/FormContainer/model/init'
