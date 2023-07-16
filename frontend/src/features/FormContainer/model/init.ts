@@ -2,7 +2,6 @@ import {
   $fastForm,
   $fastFormError,
   $fastFormErrorResponse,
-  $fastFormValidate,
   $formSent,
   $isPendingForm,
   $responseData,
@@ -54,7 +53,7 @@ $fastForm.reset(resetFastForm).on(updateFastForm, (state, { key, value }) => {
 })
 
 $responseData.reset(resetFastForm).on(fetchPostFormFx.doneData, (state, payload) => {
-  return { ...state, email: payload.email, number: payload.number, clientNotFound: payload.clientNotFound }
+  return [...payload]
 })
 
 $fastFormError
@@ -72,9 +71,10 @@ $fastFormError
     }
   })
 
-$fastFormValidate.reset(resetFastForm).on(updateValidateForm, (state, payload) => {
-  return {
-    ...state,
-    isValidateForm: payload,
-  }
-})
+// $fastFormValidate.reset(resetFastForm).on(updateValidateForm, (state, payload) => {
+//   // console.log('updateValidateForm', state, payload)
+//   return {
+//     ...state,
+//     isValidateForm: payload,
+//   }
+// })

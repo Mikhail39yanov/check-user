@@ -1,5 +1,5 @@
 const removeHyphens = (str: string): string => {
-  return str.replace(/-/g, '')
+  return str.replace(/\D/g, '')
 }
 
 export default removeHyphens

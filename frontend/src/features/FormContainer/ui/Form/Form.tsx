@@ -7,7 +7,7 @@ import { TResponseData, TUpdateDataForm } from '../../model/type'
 export interface FormProps {
   email: string
   phone: string
-  data: TResponseData
+  data: TResponseData[]
   isPending: boolean
   isFormSent: boolean
   valueEmailError: string
@@ -36,16 +36,23 @@ const Form: FC<PropsWithChildren<FormProps>> = ({
       <section>
         <div className={'container grid container__plug'}>
           <div className={'plug'}>
-            {!isFormSent && !isPending && !valueEmailError && !valuePhoneError && data.clientNotFound && (
-              <p style={{ color: 'red' }}>{data.clientNotFound}</p>
+            {!isFormSent && !isPending && !valueEmailError && !valuePhoneError && data[0]?.clientNotFound && (
+              <p style={{ color: 'red' }}>'Client not found'</p>
             )}
+
             {!isFormSent &&
               !isPending &&
               !valueEmailError &&
               !valuePhoneError &&
-              data.email !== undefined &&
-              data.email !== '' && (
-                <p style={{ color: 'greenyellow' }}>{`Client ${data.email} | ${data.number} found`}</p>
+              data.length !== 0 &&
+              !data[0]?.clientNotFound && (
+                <>
+                  {data.map((item, i) => {
+                    return (
+                      <p key={i} style={{ color: 'greenyellow' }}>{`Client ${item.email} | ${item.number} found`}</p>
+                    )
+                  })}
+                </>
               )}
             {isPending && !isFormSent && <p style={{ color: 'aquamarine' }}>Loading...</p>}
           </div>

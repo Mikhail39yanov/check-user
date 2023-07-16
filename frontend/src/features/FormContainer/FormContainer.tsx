@@ -22,15 +22,15 @@ import {
 export interface FormContainerProps {}
 
 const FormContainer: FC<PropsWithChildren<FormContainerProps>> = () => {
+  // jill@gmail.com
   // jim@gmail.com
-  // 221122
   const { email, phone } = useUnit($fastForm)
   const data = useUnit($responseData)
   const { isPending } = useUnit($isPendingForm)
   const { isFormSent } = useUnit($formSent)
-
   const { valueEmailError, valuePhoneError } = useUnit($fastFormError)
   const { valueError } = useUnit($fastFormErrorResponse)
+
   const updateFastFormFn = useUnit(updateFastForm)
   const updateValueNameErrorFn = useUnit(updateValueEmailError)
   const updateValuePhoneErrorFn = useUnit(updateValuePhoneError)
@@ -46,7 +46,7 @@ const FormContainer: FC<PropsWithChildren<FormContainerProps>> = () => {
   }
 
   const validateValuePhone = () => {
-    if (phone.replace(/\D/g, '').length !== 6) {
+    if (removeHyphens(phone).length !== 6) {
       return { value: `Invalid number format`, key: 'valuePhoneError' }
     }
 
@@ -56,13 +56,13 @@ const FormContainer: FC<PropsWithChildren<FormContainerProps>> = () => {
   const onHandleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    updateValueNameErrorFn(validateValueEmail())
-    updateValuePhoneErrorFn(validateValuePhone())
+    const { value: isValidateValueEmail, key: keyEmil } = validateValueEmail()
+    const { value: isValidateValuePhone, key: keyPhone } = validateValuePhone()
 
-    const { value: isValidateValueName } = validateValueEmail()
-    const { value: isValidateValuePhone } = validateValuePhone()
-    const isFormValid = !isValidateValueName && !isValidateValuePhone
-    updateValidateFormFn(isFormValid)
+    updateValueNameErrorFn({ value: isValidateValueEmail, key: keyEmil })
+    updateValuePhoneErrorFn({ value: isValidateValuePhone, key: keyPhone })
+
+    const isFormValid = !isValidateValueEmail && !isValidateValuePhone
 
     if (!isFormValid) {
       return null
@@ -70,7 +70,7 @@ const FormContainer: FC<PropsWithChildren<FormContainerProps>> = () => {
 
     console.log('Sending')
 
-    let data = {
+    const data = {
       email,
       phone: removeHyphens(phone),
     }

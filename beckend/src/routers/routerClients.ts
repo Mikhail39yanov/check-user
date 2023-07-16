@@ -8,21 +8,21 @@ let previousRequest: number = 0
 
 const routerClients = express.Router()
 
-const repeatRequestMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  if (previousRequest >= 1) {
-    res.send('A repeat request cannot be sent!')
-    return
-  } else {
-    previousRequest++
-    next()
-  }
-}
+// const repeatRequestMiddleware = (req: Request, res: Response, next: NextFunction) => {
+//   if (previousRequest >= 1) {
+//     res.send('A repeat request cannot be sent!')
+//     return
+//   } else {
+//     previousRequest++
+//     next()
+//   }
+// }
 
-routerClients.post('/', repeatRequestMiddleware, async (req: ICustomRequest<IUser>, res) => {
+routerClients.post('/', async (req: ICustomRequest<IUser>, res) => {
   try {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
-    const { email, number } = req.body
+    const { email } = req.body
 
     const database = db
 
@@ -30,13 +30,13 @@ routerClients.post('/', repeatRequestMiddleware, async (req: ICustomRequest<IUse
       return
     }
 
-    const user = await findUserByUsername(email, number)
-
-    if (!user) {
-      return res.json({ clientNotFound: 'Client not found' })
+    const user = await findUserByUsername(email)
+    console.log(user)
+    if (user.length === 0) {
+      return res.json([{ clientNotFound: 'Client not found' }])
     }
 
-    res.json({ email: user.email, number: user.number })
+    res.json(user)
   } catch (error) {
     if (error) {
       console.error('error==>', error)

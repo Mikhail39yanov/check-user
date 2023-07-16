@@ -7,17 +7,13 @@ export const updateValuePhoneError = createEvent<TUpdateDataForm>()
 export const updateValidateForm = createEvent<boolean>()
 export const resetFastForm = createEvent()
 
-export const fetchPostFormFx = createEffect<TDataForm, TResponseData>()
+export const fetchPostFormFx = createEffect<TDataForm, TResponseData[]>()
 
 export const $fastForm = createStore<TDataForm>({
   email: '',
   phone: '',
 })
-export const $responseData = createStore<TResponseData>({
-  email: '',
-  number: '',
-  clientNotFound: '',
-})
+export const $responseData = createStore<TResponseData[]>([])
 export const $fastFormError = createStore<TDataFormError>({
   valueEmailError: '',
   valuePhoneError: '',
@@ -25,9 +21,9 @@ export const $fastFormError = createStore<TDataFormError>({
 export const $fastFormErrorResponse = createStore<{ valueError: string }>({
   valueError: '',
 })
-export const $fastFormValidate = createStore<{ isValidateForm: boolean }>({
-  isValidateForm: true,
-})
+// export const $fastFormValidate = createStore<{ isValidateForm: boolean }>({
+//   isValidateForm: true,
+// })
 export const $formSent = createStore<{ isFormSent: boolean }>({
   isFormSent: false,
 })
