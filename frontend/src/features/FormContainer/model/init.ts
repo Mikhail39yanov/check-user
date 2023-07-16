@@ -1,3 +1,5 @@
+import { attach } from 'effector'
+
 import {
   $fastForm,
   $fastFormError,
@@ -5,17 +7,19 @@ import {
   $formSent,
   $isPendingForm,
   $responseData,
+  $signal,
   fetchPostFormFx,
   resetFastForm,
   updateFastForm,
-  updateValidateForm,
   updateValueEmailError,
   updateValuePhoneError,
 } from '.'
 import { TDataForm } from './type'
 
 fetchPostFormFx.use(async (data: TDataForm) => {
-  const response = await fetch('/api/clients', {
+  const { signal } = await abortFx()
+
+  const req = await fetch('/api/clients', {
     method: 'POST',
     body: JSON.stringify({
       email: data.email,
@@ -25,10 +29,21 @@ fetchPostFormFx.use(async (data: TDataForm) => {
       Accept: 'application/json, text/plain, */*',
       'Content-Type': 'application/json',
     },
-  }).then((data) => data.json())
-  // console.log(response)
-  return response
+    signal,
+  })
+
+  return req.json()
 })
+
+const abortFx = attach({
+  source: $signal,
+  effect(ctrl) {
+    ctrl.abort()
+    return new AbortController()
+  },
+})
+
+$signal.on(abortFx.doneData, (_, ctrl) => ctrl)
 
 $isPendingForm.on(fetchPostFormFx.pending, (_, payload) => {
   return { isPending: payload }
@@ -42,7 +57,7 @@ $formSent.reset(fetchPostFormFx.doneData).on(fetchPostFormFx.done, (state, paylo
 })
 
 $fastFormErrorResponse.reset(fetchPostFormFx.doneData).on(fetchPostFormFx.fail, (_, payload) => {
-  return { valueError: 'A repeat request cannot be sent!' }
+  return { valueError: 'Make another request again' }
 })
 
 $fastForm.reset(resetFastForm).on(updateFastForm, (state, { key, value }) => {
@@ -70,11 +85,3 @@ $fastFormError
       [key]: value,
     }
   })
-
-// $fastFormValidate.reset(resetFastForm).on(updateValidateForm, (state, payload) => {
-//   // console.log('updateValidateForm', state, payload)
-//   return {
-//     ...state,
-//     isValidateForm: payload,
-//   }
-// })

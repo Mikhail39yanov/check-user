@@ -4,11 +4,11 @@ import { TDataForm, TDataFormError, TResponseData, TUpdateDataForm } from './typ
 export const updateFastForm = createEvent<TUpdateDataForm>()
 export const updateValueEmailError = createEvent<TUpdateDataForm>()
 export const updateValuePhoneError = createEvent<TUpdateDataForm>()
-export const updateValidateForm = createEvent<boolean>()
 export const resetFastForm = createEvent()
 
 export const fetchPostFormFx = createEffect<TDataForm, TResponseData[]>()
 
+export const $signal = createStore(new AbortController())
 export const $fastForm = createStore<TDataForm>({
   email: '',
   phone: '',

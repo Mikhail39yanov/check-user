@@ -14,7 +14,6 @@ import {
   $responseData,
   fetchPostFormFx,
   updateFastForm,
-  updateValidateForm,
   updateValueEmailError,
   updateValuePhoneError,
 } from './model'
@@ -34,7 +33,6 @@ const FormContainer: FC<PropsWithChildren<FormContainerProps>> = () => {
   const updateFastFormFn = useUnit(updateFastForm)
   const updateValueNameErrorFn = useUnit(updateValueEmailError)
   const updateValuePhoneErrorFn = useUnit(updateValuePhoneError)
-  const updateValidateFormFn = useUnit(updateValidateForm)
   const fetchPostForm = useUnit(fetchPostFormFx)
 
   const validateValueEmail = () => {
@@ -75,7 +73,11 @@ const FormContainer: FC<PropsWithChildren<FormContainerProps>> = () => {
       phone: removeHyphens(phone),
     }
 
-    await fetchPostForm(data)
+    try {
+      await fetchPostForm(data)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const handleChangeEmail = (event: ChangeEvent<HTMLInputElement>) =>

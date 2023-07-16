@@ -37,7 +37,7 @@ const Form: FC<PropsWithChildren<FormProps>> = ({
         <div className={'container grid container__plug'}>
           <div className={'plug'}>
             {!isFormSent && !isPending && !valueEmailError && !valuePhoneError && data[0]?.clientNotFound && (
-              <p style={{ color: 'red' }}>'Client not found'</p>
+              <p style={{ color: 'red' }}>Client not found</p>
             )}
 
             {!isFormSent &&
@@ -100,7 +100,7 @@ const Form: FC<PropsWithChildren<FormProps>> = ({
           <div className={styles.errorFieldsWrapper}>
             {valueEmailError && <p style={{ color: 'red', fontSize: '12px' }}>{valueEmailError}</p>}
             {valuePhoneError && <p style={{ color: 'red', fontSize: '12px' }}>{valuePhoneError}</p>}
-            {valueError && <p style={{ color: 'red', fontSize: '12px' }}>{valueError}</p>}
+            {valueError && <p style={{ color: 'yellow', fontSize: '12px' }}>{valueError}</p>}
           </div>
         </div>
       </section>
